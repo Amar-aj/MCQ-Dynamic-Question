@@ -25,7 +25,7 @@
     }
     <p> Answer</p>
     <p> @question.CorrectAnswer</p>
-    
+
 }
 else
 {
@@ -55,31 +55,30 @@ else
                 </div>
             </div>
             <p>Options</p>
-            <div class="row px-3">
-
-
-                @if (multipuleChoiceOptionsList.Any())
-                {
-                    @for (int i = 0; i < answerMultipuleChoiceOptionsLength; i++)
+            @if (question.AnswerTypeId == 1)
+            {
+                <div class="row px-3">
+                    @if (multipuleChoiceOptionsList.Any())
                     {
-                        <MultipuleChoiceTextBox OptionId="@answerMultipuleChoiceOptionsLength"
+                        @for (int i = 0; i < answerMultipuleChoiceOptionsLength; i++)
+                        {
+                            <MultipuleChoiceTextBox OptionId="@answerMultipuleChoiceOptionsLength"
                                     MultipuleChoiceOptionsChanged="ReturnMultipuleChoiceOptions" />
-
+                        }
                     }
-                }
-
-                @if (multipuleChoiceOptionsList.Any())
-                {
-                    <MultipuleChoiceRadioButton RdoLength="answerMultipuleChoiceOptionsLength"
+                    @if (multipuleChoiceOptionsList.Any())
+                    {
+                        <MultipuleChoiceRadioButton RdoLength="answerMultipuleChoiceOptionsLength"
                                         MultipuleChoiceOptionsSelectAnswer="ReturnMultipuleChoiceOptionsCurrectAnswer"></MultipuleChoiceRadioButton>
-                }
-            </div>
-            <div class="row px-3 float-end">
-                <div class="col-2">
-                    <button class="btn btn-primary" @onclick="AddMultipuleChoiceOptions">Add</button>
-
+                    }
                 </div>
-            </div>
+                <div class="row px-3 float-end">
+                    <div class="col-2">
+                        <button class="btn btn-primary" @onclick="AddMultipuleChoiceOptions">Add</button>
+                    </div>
+                </div>
+            }
+
         </div>
 
     </RadzenPanel>
@@ -102,7 +101,7 @@ else
     }
     void OnChangeAnswerType(object value, string name)
     {
-
+        question.AnswerTypeId = Convert.ToInt32(value);
     }
     void AddMultipuleChoiceOptions()
     {
@@ -119,7 +118,7 @@ else
         multipuleChoiceOptionsList.Where(x => x.Id == multipuleChoiceOptions.Id).FirstOrDefault().Name = multipuleChoiceOptions.Name;
         multipuleChoiceOptionsList.Where(x => x.Id == multipuleChoiceOptions.Id).FirstOrDefault().ImagePath = multipuleChoiceOptions.ImagePath;
     }
-    void ReturnMultipuleChoiceOptionsCurrectAnswer(int vale)
+    void ReturnMultipuleChoiceOptionsCurrectAnswer(string vale)
     {
         question.CorrectAnswer = vale;
     }

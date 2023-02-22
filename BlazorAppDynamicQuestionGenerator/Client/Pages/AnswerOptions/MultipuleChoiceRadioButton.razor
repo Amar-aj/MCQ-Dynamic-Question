@@ -12,7 +12,7 @@
     [Parameter]
     public int RdoLength { get; set; }
     [Parameter]
-    public EventCallback<int> MultipuleChoiceOptionsSelectAnswer { get; set; }
+    public EventCallback<string> MultipuleChoiceOptionsSelectAnswer { get; set; }
 
 
 
@@ -22,7 +22,7 @@
     }
     private Task OnMultipuleChoiceOptionsChanged(int value)
     {
-        return MultipuleChoiceOptionsSelectAnswer.InvokeAsync(value);
+        return MultipuleChoiceOptionsSelectAnswer.InvokeAsync(value.ToString());
     }
 
 

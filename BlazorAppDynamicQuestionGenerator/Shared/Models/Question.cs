@@ -16,7 +16,7 @@ public class Question
     public int AnswerTypeId { get; set; }
     public virtual AnswerType AnswerType { get; set; }
 
-    public int CorrectAnswer { get; set; }
+    public string CorrectAnswer { get; set; }
 
 
 
