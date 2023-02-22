@@ -1,0 +1,30 @@
+﻿@using BlazorAppDynamicQuestionGenerator.Client.Common;
+<RadzenRadioButtonList TValue="int"
+                       Change=@((args) => OnChange(args, "RadioButtonList with horizontal orientation"))>
+    <Items>
+        @for (int i = 0; i < RdoLength; i++)
+        {
+            <RadzenRadioButtonListItem Text="@StaticData.answerOptionsName[i]" Value="i+1" />
+        }
+    </Items>
+</RadzenRadioButtonList>
+@code {
+    [Parameter]
+    public int RdoLength { get; set; }
+    [Parameter]
+    public EventCallback<int> MultipuleChoiceOptionsSelectAnswer { get; set; }
+
+
+
+    void OnChange(int? value, string name)
+    {
+        OnMultipuleChoiceOptionsChanged(value.Value);
+    }
+    private Task OnMultipuleChoiceOptionsChanged(int value)
+    {
+        return MultipuleChoiceOptionsSelectAnswer.InvokeAsync(value);
+    }
+
+
+
+}

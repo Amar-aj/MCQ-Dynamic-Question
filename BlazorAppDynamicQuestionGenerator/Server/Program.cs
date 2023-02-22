@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +26,11 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "StaticData")),
+    RequestPath = new PathString("/StaticData")
+});
 app.UseRouting();
 
 
