@@ -11,12 +11,7 @@
     </div>
     <div class="col-4">
         <RadzenFileInput @bind-Value=@multipuleChoiceOptions.ImagePath TValue="string" class="w-100"
-                         Change=@(args => OnChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) />
-
-       @* @if (!string.IsNullOrWhiteSpace(multipuleChoiceOptions.ImagePath))
-        {
-            <RadzenImage Path="@multipuleChoiceOptions.ImagePath" Style="width: 100%; height:100px" />
-        }*@
+                         Change=@(args => OnImageChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) />
     </div>
 
 </div>
@@ -28,8 +23,6 @@
 
     [Parameter]
     public EventCallback<MultipuleChoiceOptions> MultipuleChoiceOptionsChanged { get; set; }
-
-    RadzenUpload upload;
     MultipuleChoiceOptions multipuleChoiceOptions = new MultipuleChoiceOptions();
 
     protected override void OnInitialized()
@@ -46,7 +39,7 @@
         multipuleChoiceOptions.Name = e.Value.ToString();
         return MultipuleChoiceOptionsChanged.InvokeAsync(multipuleChoiceOptions);
     }
-    private Task OnChange(string value, string name)
+    private Task OnImageChange(string value, string name)
     {
         multipuleChoiceOptions.ImagePath = value;
         return MultipuleChoiceOptionsChanged.InvokeAsync(multipuleChoiceOptions);

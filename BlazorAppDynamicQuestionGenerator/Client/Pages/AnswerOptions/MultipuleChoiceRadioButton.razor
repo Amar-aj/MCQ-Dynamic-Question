@@ -14,8 +14,6 @@
     [Parameter]
     public EventCallback<string> MultipuleChoiceOptionsSelectAnswer { get; set; }
 
-
-
     void OnChange(int? value, string name)
     {
         OnMultipuleChoiceOptionsChanged(value.Value);

@@ -1,0 +1,53 @@
+﻿@using BlazorAppDynamicQuestionGenerator.Client.Common;
+
+<div class="row">
+    <div class="col-1">
+        @StaticData.answerOptionsName[checkBoxOptions.Id-1]
+    </div>
+    <div class="col-7">
+        <RadzenTextArea id="@checkBoxOptions.Id" Placeholder="Enter here..."
+                        @oninput="OnCheckBoxOptionsChanged"
+                        @bind-Value=@checkBoxOptions.Name class="w-100" />
+    </div>
+    <div class="col-4">
+        <RadzenFileInput @bind-Value=@checkBoxOptions.ImagePath TValue="string" class="w-100"
+                         Change=@(args => OnImageFileChange(args, "FileInput")) Error=@(args => OnError(args, "FileInput")) />
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int OptionId { get; set; }
+
+    [Parameter]
+    public EventCallback<CheckBoxOptions> CheckBoxOptionsChanged { get; set; }
+
+    RadzenUpload upload;
+    CheckBoxOptions checkBoxOptions = new CheckBoxOptions();
+
+    protected override void OnInitialized()
+    {
+        checkBoxOptions = new CheckBoxOptions()
+            {
+                Id = OptionId,
+            };
+    }
+
+
+    private Task OnCheckBoxOptionsChanged(ChangeEventArgs e)
+    {
+        checkBoxOptions.Name = e.Value.ToString();
+        return CheckBoxOptionsChanged.InvokeAsync(checkBoxOptions);
+    }
+    private Task OnImageFileChange(string value, string name)
+    {
+        checkBoxOptions.ImagePath = value;
+        return CheckBoxOptionsChanged.InvokeAsync(checkBoxOptions);
+    }
+    void OnError(UploadErrorEventArgs args, string name)
+    {
+        Console.WriteLine($"{args.Message}");
+    }
+}
+

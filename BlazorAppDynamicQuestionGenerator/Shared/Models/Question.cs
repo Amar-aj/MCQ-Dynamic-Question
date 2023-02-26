@@ -36,9 +36,15 @@ public class MultipuleChoiceOptions
     public string Name { get; set; }
     public string? ImagePath { get; set; }
 }
-public class UploadedFile
-{
-    public string FileName { get; set; }
-    public byte[] FileContent { get; set; }
-}
 
+public class CheckBoxOptions
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string? ImagePath { get; set; }
+}
+public class CheckBoxAnswerOptions
+{
+    public int Id { get; set; }
+    public bool value { get; set; }
+}

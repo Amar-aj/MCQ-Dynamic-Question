@@ -60,21 +60,44 @@ else
                 <div class="row px-3">
                     @if (multipuleChoiceOptionsList.Any())
                     {
-                        @for (int i = 0; i < answerMultipuleChoiceOptionsLength; i++)
+                        @for (int i = 0; i < answerOptionsLength; i++)
                         {
-                            <MultipuleChoiceTextBox OptionId="@answerMultipuleChoiceOptionsLength"
+                            <MultipuleChoiceTextBox OptionId="@answerOptionsLength"
                                     MultipuleChoiceOptionsChanged="ReturnMultipuleChoiceOptions" />
                         }
                     }
                     @if (multipuleChoiceOptionsList.Any())
                     {
-                        <MultipuleChoiceRadioButton RdoLength="answerMultipuleChoiceOptionsLength"
+                        <MultipuleChoiceRadioButton RdoLength="answerOptionsLength"
                                         MultipuleChoiceOptionsSelectAnswer="ReturnMultipuleChoiceOptionsCurrectAnswer"></MultipuleChoiceRadioButton>
                     }
                 </div>
                 <div class="row px-3 float-end">
                     <div class="col-2">
                         <button class="btn btn-primary" @onclick="AddMultipuleChoiceOptions">Add</button>
+                    </div>
+                </div>
+            }
+            @if (question.AnswerTypeId == 2)
+            {
+                <div class="row px-3">
+                    @if (checkBoxOptionsOptionsList.Any())
+                    {
+                        @for (int i = 0; i < answerOptionsLength; i++)
+                        {
+                            <CheckBoxTextBox OptionId="@answerOptionsLength"
+                             CheckBoxOptionsChanged="ReturnCheckBoxOptions" />
+                        }
+                    }
+                    @if (checkBoxOptionsOptionsList.Any())
+                    {
+                        <CheckBoxCheckboxButton RdoLength="answerOptionsLength"
+                                    CheckBoxAnswerOptionsSelectAnswer="ReturnCheckBoxOptionsCurrectAnswer"></CheckBoxCheckboxButton>
+                    }
+                </div>
+                <div class="row px-3 float-end">
+                    <div class="col-2">
+                        <button class="btn btn-primary" @onclick="AddCheckBoxOptions">Add</button>
                     </div>
                 </div>
             }
@@ -89,8 +112,9 @@ else
 @code {
     Question question = new Question();
     List<AnswerType> answerType = new List<AnswerType>();
-    int answerMultipuleChoiceOptionsLength = 0;
+    int answerOptionsLength = 0;
     List<MultipuleChoiceOptions> multipuleChoiceOptionsList = new List<MultipuleChoiceOptions>();
+    List<CheckBoxOptions> checkBoxOptionsOptionsList = new List<CheckBoxOptions>();
     bool isView = false;
     protected override async Task OnInitializedAsync()
     {
@@ -101,27 +125,55 @@ else
     }
     void OnChangeAnswerType(object value, string name)
     {
+        answerOptionsLength = 0;
         question.AnswerTypeId = Convert.ToInt32(value);
     }
+
+    //MultipuleChoiceOptions
     void AddMultipuleChoiceOptions()
     {
-        answerMultipuleChoiceOptionsLength++;
+        answerOptionsLength++;
         multipuleChoiceOptionsList.Add(new MultipuleChoiceOptions
             {
-                Id = answerMultipuleChoiceOptionsLength,
+                Id = answerOptionsLength,
                 Name = "",
                 ImagePath = ""
             });
     }
     void ReturnMultipuleChoiceOptions(MultipuleChoiceOptions multipuleChoiceOptions)
     {
-        multipuleChoiceOptionsList.Where(x => x.Id == multipuleChoiceOptions.Id).FirstOrDefault().Name = multipuleChoiceOptions.Name;
-        multipuleChoiceOptionsList.Where(x => x.Id == multipuleChoiceOptions.Id).FirstOrDefault().ImagePath = multipuleChoiceOptions.ImagePath;
+        var data = multipuleChoiceOptionsList.Where(x => x.Id == multipuleChoiceOptions.Id).FirstOrDefault();
+        data.Name = multipuleChoiceOptions.Name;
+        data.ImagePath = multipuleChoiceOptions.ImagePath;
     }
     void ReturnMultipuleChoiceOptionsCurrectAnswer(string vale)
     {
         question.CorrectAnswer = vale;
     }
+    // CheckBoxOptions
+    void AddCheckBoxOptions()
+    {
+        answerOptionsLength++;
+        checkBoxOptionsOptionsList.Add(new CheckBoxOptions
+            {
+                Id = answerOptionsLength,
+                Name = "",
+                ImagePath = ""
+            });
+    }
+    void ReturnCheckBoxOptions(CheckBoxOptions checkBoxOptions)
+    {
+        var data = checkBoxOptionsOptionsList.Where(x => x.Id == checkBoxOptions.Id).FirstOrDefault();
+        data.Name = checkBoxOptions.Name;
+        data.ImagePath = checkBoxOptions.ImagePath;
+    }
+    void ReturnCheckBoxOptionsCurrectAnswer(string vale)
+    {
+        question.CorrectAnswer = vale;
+    }
+
+
+
     void IsShowQuestion()
     {
         isView = !isView;
